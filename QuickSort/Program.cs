@@ -7,6 +7,7 @@ namespace QuickSort
         static void Main(string[] args)
         {
             Console.WriteLine("HELLO");
+            Console.WriteLine("Hello from branch");
         }
     }
 }
