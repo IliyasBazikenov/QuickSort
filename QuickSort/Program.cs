@@ -6,6 +6,7 @@ namespace QuickSort
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("HELLO");
         }
     }
 }
