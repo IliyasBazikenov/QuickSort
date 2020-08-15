@@ -1,52 +1,24 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace QuickSort
 {
-    public class QuickSorter
+    public class QuickSorter<T> where T: IComparable
     {
-        public static void QuickSort(int[] sourceArr, int first, int last) 
+        private static IEnumerable<T> empty = new List<T>();
+        public static IEnumerable<T> QuickSort(IEnumerable<T> sourceArr) 
         {
-            if (first > last || first < 0 || last < 0)
-                return ;
-
-            int index = Partition(sourceArr, first, last);
-            
-            if(index != -1)
+            if (sourceArr.Any())
             {
-                QuickSort(sourceArr, first, index - 1);
-                QuickSort(sourceArr, index + 1, last);
+                var pivot = sourceArr.First();
+                return QuickSort(sourceArr.Where(e => pivot.CompareTo(e) > 0))
+                    .Concat(sourceArr.Where(e => pivot.CompareTo(e) == 0))
+                    .Concat(QuickSort(sourceArr.Where(e => pivot.CompareTo(e) < 0)));
             }
-        }
-
-        private static int Partition(int[] sourceArr, int first, int last)
-        {
-            if (first > last)
-                return -1;
-
-            int end = first;
-
-            int pivot = sourceArr[last];
-            for (int i = first; i < last; i++)
-            {
-                if(sourceArr[i] < pivot)
-                {
-                    swap(sourceArr, i, end);
-                    end++;
-                }
-            }
-
-            swap(sourceArr, end, last);
-            return end;
-        }
-
-        private static void swap(int[] sourceArr, int first, int last)
-        {
-            int temp = sourceArr[first];
-            sourceArr[first] = sourceArr[last];
-            sourceArr[last] = temp;
+            return empty;
         }
     }
 }
